@@ -1,7 +1,9 @@
 package com.telros.demotelros.service;
 
 import com.telros.demotelros.dto.request.UserRequest;
+import com.telros.demotelros.dto.response.UserResponse;
 import com.telros.demotelros.entity.User;
+import com.telros.demotelros.repository.PhotoRepository;
 import com.telros.demotelros.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,12 +20,13 @@ class UserServiceTest {
     void getUserById_success() {
         final long userId = 0;
         User user = new User("2", "2", "2", LocalDate.now(), "2", "2");
+        UserResponse userResponse = new UserResponse(user);
 
         Mockito.when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
-        User actual = userService.getUserById(userId);
+        UserResponse actual = userService.getUserById(userId);
 
-        Assertions.assertEquals(user, actual);
+        Assertions.assertEquals(userResponse, actual);
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.telros.demotelros.controller;
 
 import com.telros.demotelros.dto.request.UserRequest;
+import com.telros.demotelros.dto.response.UserResponse;
 import com.telros.demotelros.entity.User;
 import com.telros.demotelros.service.UserService;
 import org.junit.jupiter.api.Assertions;
@@ -30,11 +31,12 @@ class UserControllerTest {
     void getUserTest_success() {
         final long userId = 0;
         User user = new User("2","2","2", LocalDate.now(), "2","2");
+        UserResponse userResponse = new UserResponse(user);
 
-        Mockito.when(userService.getUserById(userId)).thenReturn(user);
+        Mockito.when(userService.getUserById(userId)).thenReturn(userResponse);
 
-        ResponseEntity<User> expected = ResponseEntity.ok(user);
-        ResponseEntity<User> actual = userController.getUser(userId);
+        ResponseEntity<UserResponse> expected = ResponseEntity.ok(userResponse);
+        ResponseEntity<UserResponse> actual = userController.getUser(userId);
 
         Assertions.assertEquals(expected, actual);
     }
@@ -43,12 +45,13 @@ class UserControllerTest {
     void getUserTest_fail() {
         final long userId = 0;
         User user = new User("2","2","2", LocalDate.now(), "2","2");
+        UserResponse userResponse = new UserResponse(user);
         User userFail = new User("1","1","1", LocalDate.now(), "1","1");
+        UserResponse userResponseFail = new UserResponse(userFail);
+        Mockito.when(userService.getUserById(userId)).thenReturn(userResponse);
 
-        Mockito.when(userService.getUserById(userId)).thenReturn(user);
-
-        ResponseEntity<User> expected = ResponseEntity.ok(userFail);
-        ResponseEntity<User> actual = userController.getUser(userId);
+        ResponseEntity<UserResponse> expected = ResponseEntity.ok(userResponseFail);
+        ResponseEntity<UserResponse> actual = userController.getUser(userId);
 
         Assertions.assertNotEquals(expected, actual);
     }
