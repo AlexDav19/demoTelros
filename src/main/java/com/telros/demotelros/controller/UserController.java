@@ -1,6 +1,7 @@
 package com.telros.demotelros.controller;
 
 import com.telros.demotelros.dto.request.UserRequest;
+import com.telros.demotelros.dto.response.UserResponse;
 import com.telros.demotelros.entity.User;
 import com.telros.demotelros.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,7 +38,7 @@ public class UserController {
                     @ApiResponse(responseCode = "500", description = "Service error"),
             }, tags = "Пользователь"
     )
-    public ResponseEntity<User> getUser(
+    public ResponseEntity<UserResponse> getUser(
             @Parameter(description = "id пользователя", example = "1", required = true)
             @PathVariable Long id) {
         return ResponseEntity.ok(userService.getUserById(id));
@@ -83,7 +84,7 @@ public class UserController {
     public ResponseEntity<User> updateUser(
             @Parameter(description = "id пользователя", example = "1", required = true)
             @PathVariable Long id,
-            @RequestBody User user) {
+            @RequestBody UserRequest user) {
         return ResponseEntity.ok(userService.updateUser(id, user));
     }
 

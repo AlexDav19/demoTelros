@@ -1,6 +1,7 @@
 package com.telros.demotelros.service;
 
 import com.telros.demotelros.dto.request.UserRequest;
+import com.telros.demotelros.dto.response.UserResponse;
 import com.telros.demotelros.entity.User;
 import com.telros.demotelros.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -23,8 +24,8 @@ public class UserService {
      * @return {@link User} - пользователь
      * @throws EntityNotFoundException если данного пользователя не существует в базе данных
      */
-    public User getUserById(Long userId) {
-        return userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+    public UserResponse getUserById(Long userId) {
+        return new UserResponse(userRepository.findById(userId).orElseThrow(EntityNotFoundException::new));
     }
 
     /**
@@ -46,9 +47,9 @@ public class UserService {
      * @return {@link User} - изменненый пользователь
      * @throws EntityNotFoundException если данного пользователя не существует в базе данных
      */
-    public User updateUser(Long userId, User user) {
+    public User updateUser(Long userId, UserRequest user) {
         userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
-        User updateUser = new User(userId, user.getLastName(), user.getFirstName(), user.getSurName(), user.getBirthday(), user.getEmail(), user.getTelephone());
+        User updateUser = new User(userId, user.lastName(), user.firstName(), user.surName(), user.birthday(), user.email(), user.telephone());
         return userRepository.save(updateUser);
     }
 
